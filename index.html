@@ -7,201 +7,374 @@
 <style>
 body {
   margin: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
   background: #0f172a;
+  font-family: Arial, sans-serif;
   color: white;
-  font-family: Arial;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.container {
-  width: 1100px;
-  min-height: 700px;
-  padding: 40px 0;
+.scene {
+  width: 1000px;
+  text-align: center;
 }
 
-/* PANEL */
-.panel {
-  position: relative;
-  height: 260px;
-  margin-bottom: 60px;
-  border-radius: 12px;
-  padding: 20px;
+h1 {
+  margin-bottom: 40px;
 }
 
-.aligned {
-  border: 2px solid #22c55e;
-}
-
-.misaligned {
-  border: 2px solid #ef4444;
-}
-
-/* LABEL */
-.label {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.aligned .label { color: #22c55e; }
-.misaligned .label { color: #ef4444; }
-
-/* MACHINE */
 .machine {
   position: relative;
-  height: 200px;
+  height: 330px;
 }
 
-/* CENTERLINE */
+.base {
+  position: absolute;
+  left: 70px;
+  right: 70px;
+  bottom: 45px;
+  height: 32px;
+  background: linear-gradient(#64748b, #1e293b);
+  border-radius: 4px;
+}
+
 .centerline {
   position: absolute;
-  top: 100px;
-  left: 120px;
-  right: 120px;
-  border-top: 2px dashed;
+  left: 90px;
+  right: 90px;
+  top: 150px;
+  border-top: 2px dashed #22c55e;
+  opacity: 0.8;
+  z-index: 1;
 }
 
-.aligned .centerline { border-color: #22c55e; }
-.misaligned .centerline { border-color: #ef4444; }
-
-/* MOTOR */
 .motor {
   position: absolute;
-  left: 50px;
-  top: 60px;
-  width: 180px;
-  height: 80px;
-  border-radius: 40px;
-  background: linear-gradient(#3b82f6, #1e293b);
+  left: 80px;
+  top: 75px;
+  width: 250px;
+  height: 150px;
 }
 
-/* PUMP */
+.motor-body {
+  position: absolute;
+  width: 230px;
+  height: 120px;
+  border-radius: 60px 18px 18px 60px;
+  background: linear-gradient(90deg, #1e3a5f, #3b82a0, #1e293b);
+  box-shadow: inset 0 0 18px rgba(255,255,255,0.2),
+              inset 0 -12px 18px rgba(0,0,0,0.35);
+}
+
+.motor-fins {
+  position: absolute;
+  left: 72px;
+  top: 12px;
+  width: 115px;
+  height: 96px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.18) 0,
+    rgba(255,255,255,0.18) 5px,
+    transparent 5px,
+    transparent 14px
+  );
+}
+
+.junction-box {
+  position: absolute;
+  left: 95px;
+  top: 58px;
+  width: 60px;
+  height: 42px;
+  border-radius: 6px;
+  background: #334155;
+  border: 2px solid #64748b;
+}
+
+.motor-foot {
+  position: absolute;
+  left: 55px;
+  bottom: 0;
+  width: 130px;
+  height: 24px;
+  background: #334155;
+  border-radius: 4px;
+}
+
+.shaft {
+  position: absolute;
+  top: 140px;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    #f8fafc,
+    #94a3b8 45%,
+    #475569 55%,
+    #e2e8f0
+  );
+  border-radius: 3px;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.5),
+              inset 0 -2px 3px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+.shaft-left {
+  left: 310px;
+  width: 170px;
+}
+
+.shaft-right {
+  left: 590px;
+  width: 190px;
+  transition: transform 0.5s ease;
+}
+
+.coupling {
+  position: absolute;
+  left: 470px;
+  top: 107px;
+  width: 130px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  z-index: 3;
+}
+
+.hub {
+  width: 42px;
+  height: 76px;
+  border-radius: 8px;
+  background: linear-gradient(#cbd5e1, #475569, #111827);
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.35);
+  position: relative;
+}
+
+.hub::before,
+.hub::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #111827;
+  border: 2px solid #94a3b8;
+}
+
+.hub::before {
+  top: 10px;
+}
+
+.hub::after {
+  bottom: 10px;
+}
+
+.insert {
+  width: 30px;
+  height: 64px;
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    #facc15,
+    #facc15 7px,
+    #ca8a04 7px,
+    #ca8a04 14px
+  );
+  transition: all 0.3s ease;
+}
+
 .pump {
   position: absolute;
-  right: 50px;
-  top: 50px;
+  right: 70px;
+  top: 70px;
+  width: 230px;
+  height: 165px;
+}
+
+.pump-body {
+  position: absolute;
+  left: 25px;
+  top: 57px;
+  width: 110px;
+  height: 70px;
+  border-radius: 10px;
+  background: linear-gradient(#3b82a0, #1e3a5f);
+}
+
+.pump-volute {
+  position: absolute;
+  right: 20px;
+  top: 25px;
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: radial-gradient(circle, #3b82f6, #1e293b);
+  background: radial-gradient(circle at 42% 52%, #3b82a0 0 28%, #1e3a5f 30% 100%);
+  box-shadow: inset 0 0 15px rgba(255,255,255,0.25),
+              inset 0 -12px 20px rgba(0,0,0,0.35);
 }
 
-/* SHAFT */
-.shaft {
+.pump-nozzle.top {
   position: absolute;
-  top: 96px;
-  height: 8px;
-  background: #94a3b8;
+  right: 54px;
+  top: 0;
+  width: 52px;
+  height: 36px;
+  background: #1e3a5f;
+  border-radius: 8px 8px 3px 3px;
 }
 
-.left { left: 230px; width: 200px; }
-.right { left: 560px; width: 200px; }
-
-/* COUPLING */
-.coupling {
+.pump-nozzle.right {
   position: absolute;
-  left: 430px;
-  top: 80px;
-  display: flex;
-  gap: 4px;
+  right: 0;
+  top: 76px;
+  width: 42px;
+  height: 42px;
+  background: #1e3a5f;
+  border-radius: 4px;
 }
 
-.block {
-  width: 20px;
-  height: 40px;
-  background: #facc15;
+.pump-foot {
+  position: absolute;
+  right: 45px;
+  bottom: 0;
+  width: 100px;
+  height: 25px;
+  background: #334155;
+  border-radius: 4px;
 }
 
-/* MISALIGNMENT EFFECT */
-.misaligned .right {
-  transform: translateY(15px) rotate(3deg);
+#status {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #86efac;
 }
 
-.misaligned .coupling {
-  animation: shake 0.3s infinite;
+button {
+  margin-top: 20px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 999px;
+  background: #38bdf8;
+  color: #082f49;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.misaligned .block {
-  background: #ef4444;
+button:hover {
+  background: #7dd3fc;
 }
 
-@keyframes shake {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-  100% { transform: translateY(0); }
+/* MISALIGNMENT */
+
+.machine.misaligned .centerline {
+  border-color: #ef4444;
 }
 
-/* TEXT */
-.desc {
-  margin-top: 10px;
-  font-size: 14px;
-  opacity: 0.8;
+.machine.misaligned .shaft-right {
+  transform: translateY(22px) rotate(4deg);
 }
 
+.machine.misaligned .coupling {
+  animation: vibration 0.25s infinite;
+}
+
+.machine.misaligned .insert {
+  background: repeating-linear-gradient(
+    90deg,
+    #ef4444,
+    #ef4444 7px,
+    #991b1b 7px,
+    #991b1b 14px
+  );
+  transform: skewY(10deg) scaleX(0.9);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+}
+
+.machine.misaligned + #status {
+  color: #fca5a5;
+}
+
+@keyframes vibration {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(2px, -2px) rotate(-1deg);
+  }
+  50% {
+    transform: translate(-2px, 2px) rotate(1deg);
+  }
+  75% {
+    transform: translate(2px, 2px) rotate(-1deg);
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="scene">
+  <h1>Shaft Alignment Demo</h1>
 
-  <!-- ALIGNED -->
-  <div class="panel aligned">
-    <div class="label">✔ ALIGNED</div>
+  <div class="machine" id="machine">
+    <div class="base"></div>
+    <div class="centerline"></div>
 
-    <div class="machine">
-      <div class="centerline"></div>
-
-      <div class="motor"></div>
-
-      <div class="shaft left"></div>
-
-      <div class="coupling">
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-      </div>
-
-      <div class="shaft right"></div>
-
-      <div class="pump"></div>
+    <div class="motor">
+      <div class="motor-body"></div>
+      <div class="motor-fins"></div>
+      <div class="junction-box"></div>
+      <div class="motor-foot"></div>
     </div>
 
-    <div class="desc">
-      Centerlines match → smooth power transmission, no excessive wear.
-    </div>
-  </div>
+    <div class="shaft shaft-left"></div>
 
-
-  <!-- MISALIGNED -->
-  <div class="panel misaligned">
-    <div class="label">✖ MISALIGNED</div>
-
-    <div class="machine">
-      <div class="centerline"></div>
-
-      <div class="motor"></div>
-
-      <div class="shaft left"></div>
-
-      <div class="coupling">
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-      </div>
-
-      <div class="shaft right"></div>
-
-      <div class="pump"></div>
+    <div class="coupling">
+      <div class="hub"></div>
+      <div class="insert"></div>
+      <div class="hub"></div>
     </div>
 
-    <div class="desc">
-      Misalignment → coupling flexes every rotation → vibration, heat, wear.
+    <div class="shaft shaft-right"></div>
+
+    <div class="pump">
+      <div class="pump-body"></div>
+      <div class="pump-volute"></div>
+      <div class="pump-nozzle top"></div>
+      <div class="pump-nozzle right"></div>
+      <div class="pump-foot"></div>
     </div>
   </div>
 
+  <p id="status">Centerlines match — smooth power transmission.</p>
+
+  <button id="toggle">Show misalignment</button>
 </div>
+
+<script>
+const machine = document.getElementById("machine");
+const toggle = document.getElementById("toggle");
+const statusText = document.getElementById("status");
+
+toggle.addEventListener("click", () => {
+  machine.classList.toggle("misaligned");
+
+  const isMisaligned = machine.classList.contains("misaligned");
+
+  statusText.textContent = isMisaligned
+    ? "Centerlines do not match — coupling flexes every rotation, causing vibration, heat and wear."
+    : "Centerlines match — smooth power transmission.";
+
+  toggle.textContent = isMisaligned
+    ? "Show aligned shafts"
+    : "Show misalignment";
+});
+</script>
 
 </body>
 </html>
